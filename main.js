@@ -32,6 +32,6 @@ const start = async () => {
 start();
 
 app.get('/', function(req, res) {
-    res.sendFile(path.join(__dirname, '/index.html'));
-  });
+  res.sendFile(path.join(__dirname, '/index.html'));
+});
 app.use('/api' , require('./router'));
