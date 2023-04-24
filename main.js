@@ -4,6 +4,7 @@ const path = require('path');
 const fileUpload = require('express-fileupload');
 const mongoose = require('mongoose');
 const config = require('./config.json')
+const productService = require('./services/product')
 
 const PORT = config.PORT;
 const mongoUri = config.MongoUri;
@@ -31,8 +32,9 @@ const start = async () => {
 
 start();
 
-app.get('/', function(req, res) {
-  res.sendFile(path.join(__dirname, '/index.html'));
+app.get('/', function(req, res, next) {
+  //res.sendFile(path.join(__dirname, '/index.html'));
+  productService.getAllProducts(req, res ,next)
 });
 app.use('/api' , require('./router'));
 
