@@ -33,8 +33,8 @@ const start = async () => {
 start();
 
 app.get('/', function(req, res, next) {
-  //res.sendFile(path.join(__dirname, '/index.html'));
-  productService.getAllProducts(req, res ,next)
+  res.sendFile(path.join(__dirname, '/index.html'));
+  //productService.getAllProducts(req, res ,next)
 });
 app.use('/api' , require('./router'));
 
