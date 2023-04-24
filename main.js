@@ -15,10 +15,10 @@ app.use(fileUpload());
 const start = async () => {
    try{
 
-   //    await mongoose.connect(mongoUri, {
-   //      useUnifiedTopology: true,
-   //      useNewUrlParser: true
-   //    }); 
+      await mongoose.connect(mongoUri, {
+        useUnifiedTopology: true,
+        useNewUrlParser: true
+      }).then(res => console.log('mongo is started!')); 
 
        app.listen(PORT, () =>{
            console.log(`Server is running on the PORT: ${PORT}!`)
