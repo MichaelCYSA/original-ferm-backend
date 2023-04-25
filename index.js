@@ -34,6 +34,10 @@ start();
 app.get("/", function (_, res, next) {
   res.sendFile(path.join(__dirname, "/app/templates/index.html"));
 });
+app.get("/img/:name", function (req, res, next) {
+  const name = req.params.name
+  res.sendFile(path.join(__dirname, `/public/images/${name}`));
+});
 
 app.use("/api", require("./app/router"));
 
