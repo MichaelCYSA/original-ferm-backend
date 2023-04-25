@@ -17,8 +17,6 @@ router.get('/product/:id', AuthCheck ,  ProductService.getAllProductById)
 
 router.post('/uploadImage', AuthCheck ,  Files.uploadFile)
 router.post('/deleteImage', AuthCheck ,  Files.deleteImage)
-router.get('/check' ,  async (req, res) => {
-    return res.status(200).json({message: "Server is aviable!"})
-})
+router.get('/check' , Files.test)
 
 module.exports = router;

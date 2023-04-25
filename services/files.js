@@ -25,7 +25,10 @@ class Files{
           res.status(500).json({ message: 'Server error, please try again.' });
         }
       }
-
+      
+      async test(req, res) {
+        return res.status(200).json({message: "Server is aviable!"})
+    }
       async  deleteImage(req, res) {
         try {
           const imageName = req.body.name;
