@@ -7,7 +7,7 @@ const config = require('./config.json')
 const productService = require('./services/product')
 
 const PORT = config.PORT;
-const mongoUri = config.MongoUri;
+const mongoUri = process.env.MONGODB_URI || config.MongoUri;
 
 app.use(express.static('public'));
 app.use(express.json({extended: true}));
