@@ -5,9 +5,9 @@ const Product = new Schema({
   name_ro: { type: String },
   description_ru: { type: String },
   description_ro: { type: String },
-  img: { type: String },
+  image: { type: String },
   price: { type: Number },
-  type: { type: String },
+  productType: { type: String },
 });
 
 module.exports = model("Product", Product);

@@ -4,7 +4,8 @@ const { v4: uuid } = require("uuid");
 class Files {
   async uploadFile(req, res) {
     try {
-      if (!req.files || Object.keys(req.files).length === 0) {
+      
+      if (!req.files || !Object.keys(req.files).length ) {
         return res.status(400).json({ message: "No files were uploaded." });
       }
 

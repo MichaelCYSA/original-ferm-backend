@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const Order = new Schema(
+const OrderSchema = new Schema(
   {
     first_name: { type: String },
     last_name: { type: String },
@@ -11,8 +11,10 @@ const Order = new Schema(
     block: { type: String },
     apartment: { type: String },
     status: { type: Number, enum: [0, 1, 2, 3], default: 0 },
+    totalPrice: { type: Number },
+    products: { type: [{ type: Schema.Types.ObjectId, ref: "Product" }], default: [] },
   },
   { timestamps: true }
 );
 
-module.exports = model("Order", Order);
+module.exports = model("Order", OrderSchema);

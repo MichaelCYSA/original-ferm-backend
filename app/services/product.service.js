@@ -8,6 +8,7 @@ class ProductService {
     await newProduct.save();
     return res.status(201).json({ message: "Product created!" });
   });
+
   updateProductById = ServiceErrorHandler(async (req, res) => {
     const id = req.params.id;
     const updates = req.body;
@@ -16,8 +17,8 @@ class ProductService {
 
     if (!product) {
       throw new Error({
-        status: 404,
-        message: "Not found !",
+        status: 400,
+        message: "Not found product!",
       });
     }
 
@@ -51,8 +52,8 @@ class ProductService {
     const product = await Product.findById(id);
     if (!product) {
       throw new Error({
-        status: 404,
-        message: "Not found !",
+        status: 400,
+        message: "Not found product!",
       });
     }
     return res.status(200).json({ message: "Product was gotten!", product });
