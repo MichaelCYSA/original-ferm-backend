@@ -10,11 +10,14 @@ const countAndReturnAllSelectedProducts = async (orderedProducts = {}, existsPro
     return total + product.price * orderedProducts[product._id];
   }, 0);
 
+  const mappedProducts = products.map((product) => ({
+    ...product._doc,
+    count: orderedProducts[product._id],
+  }));
+
   return [
     totalPrice,
-    products.map((product) => {
-      product[count] = orderedProducts[product._id];
-    }),
+    mappedProducts,
   ];
 };
 
@@ -22,14 +25,14 @@ class OrderService {
   newOrder = ServiceErrorHandler(async (req, res) => {
     const order = req.body;
 
-    if (!Object.keys(order.products)?.lenght) {
+    if (!Object.keys(order.products)?.length) {
       throw new Error({
         status: 400,
         message: "Not found selected products !",
       });
     }
 
-    const [totalPrice, products] = countAndReturnAllSelectedProducts(
+    const [totalPrice, products] = await countAndReturnAllSelectedProducts(
       order.products
     );
 
@@ -42,11 +45,11 @@ class OrderService {
     const id = req.params.id;
     const updates = req.body;
 
-    const [totalPrice, products] = countAndReturnAllSelectedProducts(
+    const [totalPrice, products] = await countAndReturnAllSelectedProducts(
       updates.products
     );
 
-    if (products?.lenght) {
+    if (products?.length) {
       updates.totalPrice = totalPrice;
       updates.products = products;
     }
@@ -83,11 +86,15 @@ class OrderService {
   });
 
   getAllOrders = ServiceErrorHandler(async (req, res) => {
-    const { skip = 0, take = 10, status, fromDate, toDate } = req.query;
+    const { skip = 0, take = 10, status = null, fromDate, toDate } = req.query;
 
-    let query = Order.find({ status });
-    let countQuery = Order.countDocuments({ status });
-
+    let query = Order.find();
+    let countQuery = Order.countDocuments();
+    
+    if(status != null){
+      query = query.where('status', status)
+      countQuery = countQuery.where('status', status)
+    }
     if (fromDate && toDate) {
       countQuery = countQuery.where("createdAt").gte(fromDate).lte(toDate);
       query = query.where("createdAt").gte(fromDate).lte(toDate);

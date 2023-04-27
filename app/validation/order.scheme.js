@@ -9,17 +9,15 @@ const orderScheme = [
   body("home").notEmpty(),
   body("status").optional().isIn([0]),
   body("products")
-    .isArray()
+    .isObject()
     .notEmpty()
     .custom((products) => {
       if (!Object.keys(products).length) {
         throw new Error("Products must be an array");
       }
-      if (
-        Object.keys(products).some(
-          (productId) => !mongoose.isValidObjectId(productId)
-        )
-      ) {
+      const existsInvalidMongoId =  Object.keys(products).some((productId) => !mongoose.isObjectIdOrHexString(productId))
+
+      if (existsInvalidMongoId) {
         throw new Error("Invalid ObjectId in products array");
       }
       return true;
