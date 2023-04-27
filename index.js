@@ -3,13 +3,19 @@ const app = express();
 const path = require("path");
 const fileUpload = require("express-fileupload");
 const mongoose = require("mongoose");
-const cors = require('cors');
+const cors = require("cors");
 const config = require("./config.json");
 
 const PORT = config.PORT;
 const mongoUri = config.MongoUri;
-
-app.use(cors({}));
+app.use(
+  cors({
+    origin: "*",
+    methods: "GET,HEAD,PUT,PATCH,POST,DELETE",
+    preflightContinue: false,
+    optionsSuccessStatus: 204,
+  })
+);
 app.use(express.static("public"));
 app.use(express.json({ extended: true }));
 app.use(fileUpload());
@@ -37,7 +43,7 @@ app.get("/", function (_, res, next) {
   res.sendFile(path.join(__dirname, "/app/templates/index.html"));
 });
 app.get("/img/:name", function (req, res, next) {
-  const name = req.params.name
+  const name = req.params.name;
   res.sendFile(path.join(__dirname, `/public/images/${name}`));
 });
 
