@@ -3,11 +3,13 @@ const app = express();
 const path = require("path");
 const fileUpload = require("express-fileupload");
 const mongoose = require("mongoose");
+const cors = require('cors');
 const config = require("./config.json");
 
 const PORT = config.PORT;
 const mongoUri = config.MongoUri;
 
+app.use(cors({}));
 app.use(express.static("public"));
 app.use(express.json({ extended: true }));
 app.use(fileUpload());
