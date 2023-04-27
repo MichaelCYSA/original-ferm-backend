@@ -2,20 +2,27 @@ const Order = require("../models/order");
 const Product = require("../models/product");
 const ServiceErrorHandler = require("../@lib/serviceErrorHandler");
 
-const countAndReturnAllSelectedProducts = async (productIds = []) => {
-  const products = await Product.find({ _id: { $in: productIds } });
+const countAndReturnAllSelectedProducts = async (orderedProducts = {}, existsProducts) => {
+  const products = await Product.find({
+    _id: { $in: Object.keys(orderedProducts) },
+  });
   const totalPrice = products.reduce((total, product) => {
-    return total + product.price;
+    return total + product.price * orderedProducts[product._id];
   }, 0);
 
-  return [totalPrice, products.map((product) => product.id)];
+  return [
+    totalPrice,
+    products.map((product) => {
+      product[count] = orderedProducts[product._id];
+    }),
+  ];
 };
 
 class OrderService {
   newOrder = ServiceErrorHandler(async (req, res) => {
     const order = req.body;
 
-    if (!order.products?.lenght) {
+    if (!Object.keys(order.products)?.lenght) {
       throw new Error({
         status: 400,
         message: "Not found selected products !",

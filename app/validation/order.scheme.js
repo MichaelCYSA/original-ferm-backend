@@ -11,11 +11,15 @@ const orderScheme = [
   body("products")
     .isArray()
     .notEmpty()
-    .custom((value) => {
-      if (!Array.isArray(value)) {
+    .custom((products) => {
+      if (!Object.keys(products).length) {
         throw new Error("Products must be an array");
       }
-      if (value.some((id) => !mongoose.isValidObjectId(id))) {
+      if (
+        Object.keys(products).some(
+          (productId) => !mongoose.isValidObjectId(productId)
+        )
+      ) {
         throw new Error("Invalid ObjectId in products array");
       }
       return true;
