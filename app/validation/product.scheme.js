@@ -5,9 +5,9 @@ const productScheme = [
   body("name_ro").notEmpty(),
   body("description_ru").notEmpty(),
   body("description_ro").notEmpty(),
-  body("img").notEmpty(),
+  body("image").notEmpty(),
   body("price").notEmpty().isNumeric(),
-  body("type").notEmpty(),
+  body("productType").notEmpty(),
 ];
 
 module.exports = productScheme
