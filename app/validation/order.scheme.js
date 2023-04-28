@@ -13,12 +13,12 @@ const orderScheme = [
     .notEmpty()
     .custom((products) => {
       if (!Object.keys(products).length) {
-        throw new Error("Products must be an array");
+        throw new Error("Products must be not empty!");
       }
       const existsInvalidMongoId =  Object.keys(products).some((productId) => !mongoose.isObjectIdOrHexString(productId))
 
       if (existsInvalidMongoId) {
-        throw new Error("Invalid ObjectId in products array");
+        throw new Error("Exists invalid ObjectId in products");
       }
       return true;
     }),
