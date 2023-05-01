@@ -44,7 +44,8 @@ class ProductService {
     return res.json({ message: "Product deleted successfully!" });
   });
   getAllProducts = ServiceErrorHandler(async (req, res) => {
-    const data = await Product.find();
+    const productType = req.params.type;
+    const data = await Product.find({productType});
     return res.status(200).json({ message: "Products was gotten!", data });
   });
   getAllProductById = ServiceErrorHandler(async (req, res) => {

@@ -23,7 +23,7 @@ router.post(
 );
 router.patch("/product/:id", AuthCheck, ProductService.updateProductById);
 router.delete("/product/:id", AuthCheck, ProductService.deleteProductById);
-router.get("/product", ProductService.getAllProducts);
+router.get("/product/:type", ProductService.getAllProducts);
 router.get("/product/:id", AuthCheck, ProductService.getAllProductById);
 
 router.post("/uploadImage", AuthCheck, Files.uploadFile);
