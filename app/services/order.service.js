@@ -33,7 +33,7 @@ class OrderService {
     }
 
     const [totalPrice, products] = await countAndReturnAllSelectedProducts(
-      order.products
+      order.orderedProducts
     );
 
     const newOrder = new Order({ ...order, totalPrice, products });
@@ -46,7 +46,7 @@ class OrderService {
     const updates = req.body;
 
     const [totalPrice, products] = await countAndReturnAllSelectedProducts(
-      updates.products
+      updates.orderedProducts
     );
 
     if (products?.length) {

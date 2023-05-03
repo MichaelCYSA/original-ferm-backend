@@ -8,7 +8,7 @@ const orderScheme = [
   body("street").notEmpty(),
   body("home").notEmpty(),
   body("status").optional().isIn([0]),
-  body("products")
+  body("orderedProducts")
     .isObject()
     .notEmpty()
     .custom((products) => {
