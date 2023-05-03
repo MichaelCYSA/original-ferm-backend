@@ -1,6 +1,7 @@
 const Order = require("../models/order");
 const Product = require("../models/product");
 const ServiceErrorHandler = require("../@lib/serviceErrorHandler");
+const sendMessageToTelegram = require('../utils/sendMessageToTelegram')
 
 const countAndReturnAllSelectedProducts = async (orderedProducts = {}, existsProducts) => {
   const products = await Product.find({
@@ -38,6 +39,7 @@ class OrderService {
 
     const newOrder = new Order({ ...order, totalPrice, products });
     await newOrder.save(order);
+    sendMessageToTelegram(order)
     return res.status(201).json({ message: "Order created!" });
   });
 
