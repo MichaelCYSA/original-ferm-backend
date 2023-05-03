@@ -36,8 +36,8 @@ class OrderService {
     const [totalPrice, products] = await countAndReturnAllSelectedProducts(
       order.orderedProducts
     );
-
-    const newOrder = new Order({ ...order, totalPrice, products });
+    delete order.products
+    const newOrder = new Order({ ...order, totalPrice });
     await newOrder.save(order);
     sendMessageToTelegram(order)
     return res.status(201).json({ message: "Order created!" });
