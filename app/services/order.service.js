@@ -34,10 +34,10 @@ class OrderService {
     }
 
     const [totalPrice, products] = await countAndReturnAllSelectedProducts(
-      order.orderedProducts
-    );
-    delete order.products
-    const newOrder = new Order({ ...order, totalPrice });
+      order.products
+    ); 
+    
+    const newOrder = new Order({ ...order, totalPrice, products });
     await newOrder.save(order);
     sendMessageToTelegram(order)
     return res.status(201).json({ message: "Order created!" });
@@ -48,7 +48,7 @@ class OrderService {
     const updates = req.body;
 
     const [totalPrice, products] = await countAndReturnAllSelectedProducts(
-      updates.orderedProducts
+      updates.products
     );
 
     if (products?.length) {
