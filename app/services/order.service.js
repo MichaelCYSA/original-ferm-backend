@@ -39,8 +39,8 @@ class OrderService {
     
     const newOrder = new Order({ ...order, totalPrice, products });
     await newOrder.save(order);
-    sendMessageToTelegram(order)
-    return res.status(201).json({ message: "Order created!" });
+    const msg = await sendMessageToTelegram(order)
+    return res.status(201).json({ message: "Order created!", msg });
   });
 
   updateOrder = ServiceErrorHandler(async (req, res) => {
