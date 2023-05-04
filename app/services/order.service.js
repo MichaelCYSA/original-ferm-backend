@@ -102,7 +102,7 @@ class OrderService {
       query = query.where("createdAt").gte(fromDate).lte(toDate);
     }
 
-    const data = await query.skip(skip).limit(take);
+    const data = await query.skip(skip).limit(take).sort({ createdAt: 'desc' });
     const count = await countQuery;
 
     return res
