@@ -32,6 +32,7 @@ class Auth {
         message: "",
       });
     }
+    
     const isMathPassword = await bcrypt.compare(old_password, user.password);
 
     if (!isMathPassword) {
