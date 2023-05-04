@@ -21,7 +21,30 @@ class Auth {
 
     return res.status(201).json({ message: "User created!" });
   });
+  changePassword = ServiceErrorHandler(async (req, res) => {
+    const { email, new_password, old_password } =
+      req.body;
 
+    const user = await User.findOne({ email });
+    if (user) {
+      throw new Error({
+        status: 400,
+        message: "",
+      });
+    }
+    const isMathPassword = await bcrypt.compare(old_password, user.password);
+
+    if (!isMathPassword) {
+      throw new Error({
+        status: 400,
+        message: "",
+      });
+    }
+    const hashedPassword = await bcrypt.hash(new_password, 12);
+    await User.updateOne({ email: email }, { password: hashedPassword });
+
+    return res.status(201).json({ message: "Password updated!" });
+  });
   login = ServiceErrorHandler(async (req, res) => {
     const { email, password } = req.body;
     const user = await User.findOne({ email });
