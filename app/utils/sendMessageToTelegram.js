@@ -12,7 +12,7 @@ module.exports = async (data) => {
       data.home ? `${data.home}${`${data.block ? `/${data.block}` : ""}`}` : ""
     } ${data.apartment ? `Ap-${data.apartment}` : ""} \nName: ${
       data.first_name
-    } ${data.last_name} \nTotal Summ: ${data.totalPrice} MDL \nTel:${
+    } ${data.last_name} \nTotal Summ: ${data.totalPrice} MDL \nTel: +373${
       data.phone
     }`;
 
