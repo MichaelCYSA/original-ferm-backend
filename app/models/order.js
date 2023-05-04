@@ -13,6 +13,9 @@ const OrderSchema = new Schema(
     status: { type: Number, enum: [0, 1, 2, 3], default: 0 },
     totalPrice: { type: Number },
     products: { type: Schema.Types.Array },
+    phone: {
+      type: Schema.Types.String,
+    }
   },
   { timestamps: true }
 );

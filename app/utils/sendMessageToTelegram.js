@@ -12,12 +12,13 @@ module.exports = async (data) => {
       data.home ? `${data.home}${`${data.block ? `/${data.block}` : ""}`}` : ""
     } ${data.apartment ? `Ap-${data.apartment}` : ""} \nName: ${
       data.first_name
-    } ${data.last_name} \nTotal Summ: ${data.totalPrice} MDL`;
+    } ${data.last_name} \nTotal Summ: ${data.totalPrice} MDL \nTel:${
+      data.phone
+    }`;
 
     const bot = new TelegramBot(tgToken, { polling: true });
-    const res = await bot.sendMessage(chatId, message);
-    return res
+    await bot.sendMessage(chatId, message);
   } catch (e) {
-    return JSON.stringify(e);
+    console.log(e);
   }
 };
