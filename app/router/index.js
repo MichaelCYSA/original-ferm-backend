@@ -13,7 +13,7 @@ const orderScheme = require("../validation/order.scheme");
 const updateOrderScheme = require("../validation/updateOrder.scheme");
 const updatePasswordScheme = require("../validation/updatePassword.scheme");
 
-router.post("/register", Auth.registration);
+router.post("/register", AuthCheck, Auth.registration);
 router.post("/login", Auth.login);
 router.patch(
   "/password",

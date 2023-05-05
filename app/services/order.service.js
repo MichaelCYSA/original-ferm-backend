@@ -1,9 +1,14 @@
 const Order = require("../models/order");
 const Product = require("../models/product");
 const ServiceErrorHandler = require("../@lib/serviceErrorHandler");
-const sendMessageToTelegram = require('../utils/sendMessageToTelegram')
+const sendMessageToTelegram = require("../utils/sendMessageToTelegram");
 
-const countAndReturnAllSelectedProducts = async (orderedProducts = {}, existsProducts) => {
+const deleveryPrice = 40;
+
+const countAndReturnAllSelectedProducts = async (
+  orderedProducts = {},
+  existsProducts
+) => {
   const products = await Product.find({
     _id: { $in: Object.keys(orderedProducts) },
   });
@@ -16,10 +21,7 @@ const countAndReturnAllSelectedProducts = async (orderedProducts = {}, existsPro
     count: orderedProducts[product._id],
   }));
 
-  return [
-    totalPrice,
-    mappedProducts,
-  ];
+  return [totalPrice, mappedProducts];
 };
 
 class OrderService {
@@ -33,28 +35,32 @@ class OrderService {
       });
     }
 
-    const [totalPrice, products] = await countAndReturnAllSelectedProducts(
+    let [totalPrice, products] = await countAndReturnAllSelectedProducts(
       order.products
-    ); 
-    
+    );
+
+    totalPrice + deleveryPrice;
+
     const newOrder = new Order({ ...order, totalPrice, products });
     await newOrder.save(order);
-    const msg = await sendMessageToTelegram(order)
+    const msg = await sendMessageToTelegram(order);
     return res.status(201).json({ message: "Order created!", msg });
   });
 
   updateOrder = ServiceErrorHandler(async (req, res) => {
     const id = req.params.id;
     const updates = req.body;
+    
+    delete updates.products
+    delete updates.totalPrice
+   // const [totalPrice, products] = await countAndReturnAllSelectedProducts(
+   //   updates.products
+   // );
 
-    const [totalPrice, products] = await countAndReturnAllSelectedProducts(
-      updates.products
-    );
-
-    if (products?.length) {
-      updates.totalPrice = totalPrice;
-      updates.products = products;
-    }
+   // if (products?.length) {
+   //   updates.totalPrice = totalPrice;
+   //   updates.products = products;
+   // }
 
     const order = await Order.findById(id);
 
@@ -92,17 +98,17 @@ class OrderService {
 
     let query = Order.find();
     let countQuery = Order.countDocuments();
-    
-    if(status != null){
-      query = query.where('status', status)
-      countQuery = countQuery.where('status', status)
+
+    if (status != null) {
+      query = query.where("status", status);
+      countQuery = countQuery.where("status", status);
     }
     if (fromDate && toDate) {
       countQuery = countQuery.where("createdAt").gte(fromDate).lte(toDate);
       query = query.where("createdAt").gte(fromDate).lte(toDate);
     }
 
-    const data = await query.skip(skip).limit(take).sort({ createdAt: 'desc' });
+    const data = await query.skip(skip).limit(take).sort({ createdAt: "desc" });
     const count = await countQuery;
 
     return res
