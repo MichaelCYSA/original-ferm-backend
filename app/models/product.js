@@ -12,6 +12,10 @@ const Product = new Schema({
   image: { type: Schema.Types.String },
   price: { type: Schema.Types.Number },
   productType: { type: Schema.Types.String },
+  disabled: {
+    type: Schema.Types.Boolean,
+    default: false
+  }
 });
 
 module.exports = model("Product", Product);

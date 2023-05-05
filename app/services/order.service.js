@@ -12,6 +12,7 @@ const countAndReturnAllSelectedProducts = async (
 ) => {
   const products = await Product.find({
     _id: { $in: Object.keys(orderedProducts) },
+    disabled: { $ne: true },
   });
   const totalPrice = products.reduce((total, product) => {
     return total + product.price * orderedProducts[product._id];
@@ -39,6 +40,13 @@ class OrderService {
     let [totalPrice, products] = await countAndReturnAllSelectedProducts(
       order.products
     );
+
+    if (!products.length) {
+      throw new Error({
+        status: 400,
+        message: "Not found selected products !",
+      });
+    }
 
     totalPrice + deleveryPrice;
 
