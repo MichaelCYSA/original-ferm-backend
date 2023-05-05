@@ -5,6 +5,7 @@ const sendMessageToTelegram = require("../utils/sendMessageToTelegram");
 
 const deleveryPrice = 40;
 
+
 const countAndReturnAllSelectedProducts = async (
   orderedProducts = {},
   existsProducts
@@ -27,7 +28,7 @@ const countAndReturnAllSelectedProducts = async (
 class OrderService {
   newOrder = ServiceErrorHandler(async (req, res) => {
     const order = req.body;
-
+    
     if (!Object.keys(order.products)?.length) {
       throw new Error({
         status: 400,
