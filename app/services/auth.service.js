@@ -26,20 +26,15 @@ class Auth {
       req.body;
 
     const user = await User.findOne({ email });
-    if (user) {
-      throw new Error({
-        status: 400,
-        message: "",
-      });
+
+    if (!user) {
+      return res.status(400).json({});
     }
-    
+   
     const isMathPassword = await bcrypt.compare(old_password, user.password);
 
     if (!isMathPassword) {
-      throw new Error({
-        status: 400,
-        message: "",
-      });
+      return res.status(400).json({});
     }
     const hashedPassword = await bcrypt.hash(new_password, 12);
     await User.updateOne({ email: email }, { password: hashedPassword });
