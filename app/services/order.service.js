@@ -103,12 +103,12 @@ class OrderService {
   });
 
   getAllOrders = ServiceErrorHandler(async (req, res) => {
-    const { skip = 0, take = 10, status, fromDate, toDate } = req.query;
+    const { skip = 0, take = 10, status = '', fromDate, toDate } = req.query;
 
     let query = Order.find();
     let countQuery = Order.countDocuments();
 
-    if (status) {
+    if (status != '') {
       query = query.where("status", status);
       countQuery = countQuery.where("status", status);
     }
