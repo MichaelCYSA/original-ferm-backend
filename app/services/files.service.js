@@ -7,23 +7,24 @@ class Files {
       if (!req.files || !Object.keys(req.files).length) {
         return res.status(400).json({ message: "No files were uploaded." });
       }
-
+  
       const file = req.files.file;
-
+  
       console.log(file, "file");
-
+  
       const uniqueName = uuid();
-      const imgPath = uniqueName + ".jpg";
-
+      const imageName = uniqueName + ".jpg"
+      const imgPath = path.join("./public/images/", imageName);
+  
       fs.writeFile(imgPath, file.data, (err) => {
         if (err) {
           console.error(err);
           return res.status(500).json({ message: "Failed to upload file." });
         }
-
+  
         return res
           .status(201)
-          .json({ data: imgPath, message: "File uploaded." });
+          .json({ data: imageName, message: "File uploaded." });
       });
     } catch (err) {
       console.error(err);
