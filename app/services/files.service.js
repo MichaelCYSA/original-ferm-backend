@@ -15,7 +15,7 @@ class Files {
       const uniqueName = uuid();
       const imgPath = uniqueName + ".jpg";
 
-      fs.writeFile(filePath, file.data, (err) => {
+      fs.writeFile(imgPath, file.data, (err) => {
         if (err) {
           console.error(err);
           return res.status(500).json({ message: "Failed to upload file." });
