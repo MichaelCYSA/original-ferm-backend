@@ -4,16 +4,18 @@ const { v4: uuid } = require("uuid");
 class Files {
   async uploadFile(req, res) {
     try {
-      
-      if (!req.files || !Object.keys(req.files).length ) {
+      if (!req.files || !Object.keys(req.files).length) {
         return res.status(400).json({ message: "No files were uploaded." });
       }
 
       const file = req.files.file;
+
+      console.log(file, "file");
+
       const uniqueName = uuid();
       const imgPath = uniqueName + ".jpg";
 
-      file.mv("./public/images/" + imgPath, (err) => {
+      fs.writeFile(filePath, file.data, (err) => {
         if (err) {
           console.error(err);
           return res.status(500).json({ message: "Failed to upload file." });
