@@ -10,11 +10,12 @@ class Files {
       }
 
       const file = req.files.file;
+
       console.log(file, "file");
 
       const uniqueName = uuid();
-      const imageName = `${uniqueName}.jpg`;
-      const imgPath = `/home/original-ferm-restaurant/public/product-photos/${imageName}`;
+      const imageName = uniqueName + ".jpg";
+      const imgPath = path.join("./public/images/", imageName);
 
       fs.writeFile(imgPath, file.data, (err) => {
         if (err) {
@@ -38,16 +39,13 @@ class Files {
   async deleteImage(req, res) {
     try {
       const imageName = req.body.name;
-      fs.unlink(
-        `/home/original-ferm-restaurant/public/product-photos/${imageName}`,
-        (err) => {
-          if (err) {
-            console.error(err);
-            return res.status(500).json({ message: "Failed to delete image." });
-          }
-          return res.status(200).json({ message: "Image deleted." });
+      fs.unlink(`./public/images/${imageName}`, (err) => {
+        if (err) {
+          console.error(err);
+          return res.status(500).json({ message: "Failed to delete image." });
         }
-      );
+        return res.status(200).json({ message: "Image deleted." });
+      });
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Server error, please try again." });
