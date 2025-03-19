@@ -51,6 +51,15 @@ class ProductService {
     });
     return res.status(200).json({ message: "Products was gotten!", data });
   });
+
+  getAllAdminProducts = ServiceErrorHandler(async (req, res) => {
+    const productType = req.params.type;
+    const data = await Product.find({
+      productType,
+    });
+    return res.status(200).json({ message: "Products was gotten!", data });
+  });
+
   getAllProductById = ServiceErrorHandler(async (req, res) => {
     const id = req.params.id;
     const product = await Product.findById(id);

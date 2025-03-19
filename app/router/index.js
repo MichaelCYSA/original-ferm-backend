@@ -31,8 +31,8 @@ router.post(
 router.patch("/product/:id", AuthCheck, ProductService.updateProductById);
 router.delete("/product/:id", AuthCheck, ProductService.deleteProductById);
 router.get("/product/:type", ProductService.getAllProducts);
+router.get("/admin/product/:type", ProductService.getAllAdminProducts);
 router.get("/product/:id", AuthCheck, ProductService.getAllProductById);
-
 router.post("/uploadImage", Files.uploadFile);
 router.post("/deleteImage", AuthCheck, Files.deleteImage);
 
