@@ -45,7 +45,10 @@ class ProductService {
   });
   getAllProducts = ServiceErrorHandler(async (req, res) => {
     const productType = req.params.type;
-    const data = await Product.find({productType});
+    const data = await Product.find({
+      productType,
+      $or: [{ disabled: { $ne: true } }, { disabled: { $exists: false } }],
+    });
     return res.status(200).json({ message: "Products was gotten!", data });
   });
   getAllProductById = ServiceErrorHandler(async (req, res) => {
