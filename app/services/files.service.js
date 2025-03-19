@@ -1,6 +1,6 @@
 const fs = require("fs");
 const { v4: uuid } = require("uuid");
-const path = require('path')
+const path = require("path");
 
 class Files {
   async uploadFile(req, res) {
@@ -8,21 +8,20 @@ class Files {
       if (!req.files || !Object.keys(req.files).length) {
         return res.status(400).json({ message: "No files were uploaded." });
       }
-  
+
       const file = req.files.file;
-  
       console.log(file, "file");
-  
+
       const uniqueName = uuid();
-      const imageName = uniqueName + ".jpg"
-      const imgPath = path.join("./public/images/", imageName);
-  
+      const imageName = `${uniqueName}.jpg`;
+      const imgPath = `/home/original-ferm-restaurant/public/product-photos/${imageName}`;
+
       fs.writeFile(imgPath, file.data, (err) => {
         if (err) {
           console.error(err);
           return res.status(500).json({ message: "Failed to upload file." });
         }
-  
+
         return res
           .status(201)
           .json({ data: imageName, message: "File uploaded." });
@@ -39,13 +38,16 @@ class Files {
   async deleteImage(req, res) {
     try {
       const imageName = req.body.name;
-      fs.unlink(`./public/images/${imageName}`, (err) => {
-        if (err) {
-          console.error(err);
-          return res.status(500).json({ message: "Failed to delete image." });
+      fs.unlink(
+        `/home/original-ferm-restaurant/public/product-photos/${imageName}`,
+        (err) => {
+          if (err) {
+            console.error(err);
+            return res.status(500).json({ message: "Failed to delete image." });
+          }
+          return res.status(200).json({ message: "Image deleted." });
         }
-        return res.status(200).json({ message: "Image deleted." });
-      });
+      );
     } catch (err) {
       console.error(err);
       res.status(500).json({ message: "Server error, please try again." });
